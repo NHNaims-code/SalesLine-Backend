@@ -21,7 +21,7 @@ const bootstrap = async () => {
     );
   })
 
-  const server = app.listen(config.app.port, () => {
+  const server = app.listen(config.app.port || process.env.PORT, () => {
     console.log(`Server is running at ${config.app.port}`)
   })
 
