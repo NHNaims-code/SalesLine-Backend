@@ -4,12 +4,16 @@ const PaymentModel = new mongoose.Schema({
     product: {
       type: mongoose.Schema.Types.ObjectId,
         ref: 'ProductOrService',
-        required: true
     },
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true
+    },
+    organisation: {
+      type: String,
+      required: true,
+      trim: true,
     },
     amount: {
       type: String
@@ -21,7 +25,6 @@ const PaymentModel = new mongoose.Schema({
     customer: {
       type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
-        required: true
     },
     invoice_no: {
       type: String,

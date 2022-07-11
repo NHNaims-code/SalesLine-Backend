@@ -14,6 +14,11 @@ const SpentModel = new mongoose.Schema({
       ref: 'User',
       required: true
     },
+    organisation: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     date_time: {
       type: Date,
       default: new Date()

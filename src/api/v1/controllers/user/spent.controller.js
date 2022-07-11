@@ -27,31 +27,29 @@ function SpentController() {
         getAllSpents: async (req, res) => {
           console.log("hittt")
             try {
-              if(req.user.isAdmin){
-                const allSpents = await Spent.find({}).populate('item').populate('user_id')
+           
+                const allSpents = await Spent.find({organisation: req.user.organisation}).populate('item').populate('user_id')
                 res.json(allSpents)
-              }else{
-                const user_id = req.user._id;
-                const allSpents = await Spent.find({user_id: user_id}).populate('item')
-                res.json(allSpents)
+                
+              } catch (error) {
+                console.log(error)
+                res.json(false)
               }
-            } catch (error) {
-              console.log(error)
-              res.json(false)
-            }
-        },
-        updateSpent: async (req, res) => {
-            try {
-              const updatedSpent = await Spent.findOneAndUpdate({_id: req.params.id}, req.body)
-              res.json(updatedSpent)
-            } catch (error) {
-              res.json(false)
-            }
-        },
-        deleteSpent: async (req, res) => {
-            try {
-              const deletedSpent = await Spent.deleteOne({_id: req.params.id})
-              res.json(deletedSpent)
+            },
+            updateSpent: async (req, res) => {
+              try {
+                const updatedSpent = await Spent.findOneAndUpdate({_id: req.params.id}, req.body)
+                const allSpents = await Spent.find({organisation: req.user.organisation}).populate('item').populate('user_id')
+                res.json(allSpents)
+              } catch (error) {
+                res.json(false)
+              }
+            },
+            deleteSpent: async (req, res) => {
+              try {
+                const deletedSpent = await Spent.deleteOne({_id: req.params.id})
+                const allSpents = await Spent.find({organisation: req.user.organisation}).populate('item').populate('user_id')
+                res.json(allSpents)
             } catch (error) {
               res.json(false)
             }

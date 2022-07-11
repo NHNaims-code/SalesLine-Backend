@@ -12,9 +12,8 @@ export const userAuthentication = async (req, res, next) => {
     try {
         const verify_token = jwt.verify(token, config.jwt.key);
         const customer = await findUserUsingID({ _id: verify_token._id })
-        console.log("customer", customer)
         if (!customer) return res.status(401).send({ err: "Invalid Token" });
-        req.user = {...verify_token, isAdmin: customer.isAdmin};
+        req.user = {...verify_token, isAdmin: customer.isAdmin, organisation: customer.organisation};
     } catch (err) {
         return res.status(401).send({ err: "Invalid Token" });
     }

@@ -13,11 +13,15 @@ function PaymentController() {
 
               // const validation = PaymentValidation(req.body);
               // if (validation.error) return error().resourceError(res, validation.error?.details[0].message, 422);
-
               const user_id = req.user._id;
-              const createdPayment = await Payment.create({...req.body, user_id:user_id})
-              console.log("Log payment controller:",createdPayment)
-              res.json(createdPayment)
+              console.log("recieved data: ", req.body)
+              if(req.user.isAdmin){
+                const createdPayment = await Payment.create({...req.body, user_id:user_id})
+                res.json(createdPayment)
+              }else{
+                const createdPayment = await Payment.create({organisation: req.body.organisation, amount: req.body.amount, invoice_no: req.body.invoice_no, note: req.body.note, user_id:user_id})          
+                res.json(createdPayment)
+              }
             } catch (error) {
               console.log("error: ", error)
               res.json(false)
@@ -25,14 +29,10 @@ function PaymentController() {
         },
         getAllPayments: async (req, res) => {
             try {
-              if(req.user.isAdmin){
-                const allPayments = await Payment.find({}).populate('user_id').populate('customer').populate('product')
+         
+                const allPayments = await Payment.find({organisation: req.user.organisation}).populate('user_id').populate('customer').populate('product')
                 res.json(allPayments)
-              }else{
-                const user_id = req.user._id;
-                const allPayments = await Payment.find({user_id: user_id}).populate('customer').populate('product')
-                res.json(allPayments)
-              }
+             
             } catch (error) {
               res.json(false)
             }
@@ -42,7 +42,8 @@ function PaymentController() {
             try {
               const updatedPayment = await Payment.findOneAndUpdate({_id: req.params.id}, req.body)
               console.log("update payment: ", updatedPayment)
-              res.json(updatedPayment)
+              const allPayments = await Payment.find({organisation: req.user.organisation}).populate('customer').populate('product')
+              res.json(allPayments)
             } catch (error) {
               console.log("log: 42 => ", error)
               res.json(false)
@@ -52,7 +53,7 @@ function PaymentController() {
             try {
               const deletedPayment = await Payment.deleteOne({_id: req.params.id})
               const user_id = req.user._id;
-                const allPayments = await Payment.find({user_id: user_id}).populate('customer').populate('product')
+              const allPayments = await Payment.find({organisation: req.user.organisation}).populate('customer').populate('product')
               res.json(allPayments)
             } catch (error) {
               res.json(false)

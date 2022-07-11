@@ -13,6 +13,11 @@ const ProductOrServiceModel = new mongoose.Schema({
       ref: 'User',
       required: true
     },
+    organisation: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     expire: {
       type: String
     }, 

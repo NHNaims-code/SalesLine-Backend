@@ -10,6 +10,11 @@ const ExpenseModel = new mongoose.Schema({
       ref: 'User',
       required: true
     },
+    organisation: {
+      type: String,
+      required: true,
+      trim: true,
+    },
     description: {
       type: String
     },

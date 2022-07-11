@@ -20,7 +20,7 @@ export const findUserUsingIdAndToken = async (data) => {
 
 export const createUser = async (data) => {
     try {
-        const { username, email, password, isAdmin } = data;
+        const { username, organisation, email, password, isAdmin } = data;
 
         //password hash using bcrypt
         const hashPassword = await generatePasswordHash(password);
@@ -28,6 +28,7 @@ export const createUser = async (data) => {
         return await User.create({
             username,
             email,
+            organisation,
             password: hashPassword,
             isAdmin
         })

@@ -23,14 +23,10 @@ function ExpenseController() {
         },
         getAllExpenses: async (req, res) => {
             try {
-              if(req.user.isAdmin){
-                const allExpenses = await Expense.find({}).populate('user_id')
+    
+                const allExpenses = await Expense.find({organisation: req.user.organisation}).populate('user_id')
                 res.json(allExpenses)
-              }else{
-                const user_id = req.user._id;
-                const allExpenses = await Expense.find({user_id: user_id})
-                res.json(allExpenses)
-              }
+             
             } catch (error) {
               console.log(error)
               res.json(false)
@@ -39,7 +35,7 @@ function ExpenseController() {
         updateExpense: async (req, res) => {
             try {
               const updatedExpense = await Expense.findOneAndUpdate({_id: req.params.id}, req.body)
-              const updatedList = await Expense.find({})
+              const updatedList = await Expense.find({organisation: req.user.organisation})
               res.json(updatedList)
             } catch (error) {
               res.json(false)
@@ -48,7 +44,7 @@ function ExpenseController() {
         deleteExpense: async (req, res) => {
             try {
               const deletedExpense = await Expense.deleteOne({_id: req.params.id})
-              const updatedList = await Expense.find({})
+              const updatedList = await Expense.find({organisation: req.user.organisation})
               res.json(updatedList)
             } catch (error) {
               res.json(false)

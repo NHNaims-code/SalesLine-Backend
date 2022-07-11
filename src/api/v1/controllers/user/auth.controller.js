@@ -36,7 +36,7 @@ function authController() {
 
         register: async (req, res) => {
             // De-Structure data from req.body
-            const { username, email, password } = req.body;
+            const { username, organisation, email, password } = req.body;
 
             console.log(req.body)
             // Validate all information

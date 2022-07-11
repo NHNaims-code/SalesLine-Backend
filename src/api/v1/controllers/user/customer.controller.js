@@ -25,14 +25,10 @@ function customerController() {
         getAllCustomers: async (req, res) => {
           console.log("log hit------------")
             try {
-              if(req.user.isAdmin){
-                const allCustomers = await Customer.find({}).populate('user_id')
+     
+                const allCustomers = await Customer.find({organisation: req.user.organisation}).populate('user_id')
                 res.json(allCustomers)
-              }else{
-                const user_id = req.user._id;
-                const allCustomers = await Customer.find({user_id: user_id})
-                res.json(allCustomers)
-              }
+            
               
             } catch (error) {
               res.json(false)
@@ -41,7 +37,7 @@ function customerController() {
         updateCustomer: async (req, res) => {
             try {
               const updatedCustomer = await Customer.findOneAndUpdate({_id: req.params.id}, req.body)
-              const updatedCustomerList = await Customer.find({})
+              const updatedCustomerList = await Customer.find({organisation: req.user.organisation})
               res.json(updatedCustomerList)
             } catch (error) {
               res.json(false)
@@ -50,7 +46,7 @@ function customerController() {
         deleteCustomer: async (req, res) => {
             try {
               const deletedCustomer = await Customer.deleteOne({_id: req.params.id})
-              const updatedCustomerList = await Customer.find({})
+              const updatedCustomerList = await Customer.find({organisation: req.user.organisation})
               res.json(updatedCustomerList)
             } catch (error) {
               res.json(false)
