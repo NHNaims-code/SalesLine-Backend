@@ -18,15 +18,22 @@ function ProductOrServiceController() {
               const createdProductOrService = await ProductOrService.create({...req.body, user_id:user_id})
               res.json(createdProductOrService)
             } catch (error) {
+              console.log(error)
               res.json(false)
             }
         },
         getAllProductOrServices: async (req, res) => {
             try {
-              const user_id = req.user._id;
-              const allProductOrServices = await ProductOrService.find({user_id: user_id})
-              res.json(allProductOrServices)
+              if(req.user.isAdmin){
+                const allProductOrServices = await ProductOrService.find({}).populate('user_id')
+                res.json(allProductOrServices)
+              }else{
+                const user_id = req.user._id;
+                const allProductOrServices = await ProductOrService.find({user_id: user_id})
+                res.json(allProductOrServices)
+              }
             } catch (error) {
+              console.log(error)
               res.json(false)
             }
         },

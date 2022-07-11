@@ -21,6 +21,10 @@ const CustomerModel = new mongoose.Schema({
       type: String,
       required: true
     },
+    date_time: {
+      type: Date,
+      default: new Date()
+    },
     type: {
       type: String,
       required: true

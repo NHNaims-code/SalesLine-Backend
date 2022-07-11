@@ -14,13 +14,17 @@ const PaymentModel = new mongoose.Schema({
     amount: {
       type: String
     },
+    date_time: {
+      type: Date,
+      default: new Date()
+    },
     customer: {
       type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer',
         required: true
     },
     invoice_no: {
-      type: Number,
+      type: String,
     },
     note: {
       type: String

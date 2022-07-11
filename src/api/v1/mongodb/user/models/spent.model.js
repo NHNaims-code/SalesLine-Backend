@@ -14,6 +14,10 @@ const SpentModel = new mongoose.Schema({
       ref: 'User',
       required: true
     },
+    date_time: {
+      type: Date,
+      default: new Date()
+    },
     cost_price: {
       type: Number,
       required: true

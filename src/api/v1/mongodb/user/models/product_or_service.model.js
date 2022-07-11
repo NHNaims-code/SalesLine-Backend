@@ -24,6 +24,10 @@ const ProductOrServiceModel = new mongoose.Schema({
       type: Number,
       required: true
     },
+    date_time: {
+      type: Date,
+      default: new Date()
+    },
     unit: {
       type: String,
       required: true

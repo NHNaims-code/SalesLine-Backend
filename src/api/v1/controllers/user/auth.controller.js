@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import { config } from '../../../../config';
 import { createUser, findUser, findUserByIDAndTokenUpdate } from "../../services/user";
 import { userRegistrationValidation } from "../../validations/user/auth/register.validation";
+import { User } from "../../mongodb/user";
 
 function authController() {
     return {
@@ -92,6 +93,7 @@ function authController() {
             }
 
         },
+       
     }
 }
 export { authController };

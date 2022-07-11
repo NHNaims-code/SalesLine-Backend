@@ -23,11 +23,16 @@ function ExpenseController() {
         },
         getAllExpenses: async (req, res) => {
             try {
-              console.log("hit on exp ctrl: ", req.user)
-              const user_id = req.user._id;
-              const allExpenses = await Expense.find({user_id: user_id})
-              res.json(allExpenses)
+              if(req.user.isAdmin){
+                const allExpenses = await Expense.find({}).populate('user_id')
+                res.json(allExpenses)
+              }else{
+                const user_id = req.user._id;
+                const allExpenses = await Expense.find({user_id: user_id})
+                res.json(allExpenses)
+              }
             } catch (error) {
+              console.log(error)
               res.json(false)
             }
         },

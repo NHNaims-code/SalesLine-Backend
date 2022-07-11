@@ -14,6 +14,18 @@ function UserController() {
             res.json(false)
           }
         },
+        deleteUser: async (req, res) => {
+          try {
+            if(req.user.isAdmin){
+              const deletedUser = await User.deleteOne({_id: req.params.id})
+              const updatedUserList = await User.find({})
+              res.json(updatedUserList)
+            }
+          } catch (error) {
+              console.log(error)
+            res.json(false)
+          }
+      },
 
         // updateSpent: async (req, res) => {
         //     try {

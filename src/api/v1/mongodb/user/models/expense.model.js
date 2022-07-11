@@ -13,6 +13,10 @@ const ExpenseModel = new mongoose.Schema({
     description: {
       type: String
     },
+    date_time: {
+      type: Date,
+      default: new Date()
+    },
     amount: {
       type: String,
       required: true

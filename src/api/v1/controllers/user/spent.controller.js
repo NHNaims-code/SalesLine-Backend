@@ -27,9 +27,14 @@ function SpentController() {
         getAllSpents: async (req, res) => {
           console.log("hittt")
             try {
-              const user_id = req.user._id;
-              const allSpents = await Spent.find({user_id: user_id}).populate('item')
-              res.json(allSpents)
+              if(req.user.isAdmin){
+                const allSpents = await Spent.find({}).populate('item').populate('user_id')
+                res.json(allSpents)
+              }else{
+                const user_id = req.user._id;
+                const allSpents = await Spent.find({user_id: user_id}).populate('item')
+                res.json(allSpents)
+              }
             } catch (error) {
               console.log(error)
               res.json(false)

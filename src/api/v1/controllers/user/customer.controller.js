@@ -25,9 +25,15 @@ function customerController() {
         getAllCustomers: async (req, res) => {
           console.log("log hit------------")
             try {
-              const user_id = req.user._id;
-              const allCustomers = await Customer.find({user_id: user_id})
-              res.json(allCustomers)
+              if(req.user.isAdmin){
+                const allCustomers = await Customer.find({}).populate('user_id')
+                res.json(allCustomers)
+              }else{
+                const user_id = req.user._id;
+                const allCustomers = await Customer.find({user_id: user_id})
+                res.json(allCustomers)
+              }
+              
             } catch (error) {
               res.json(false)
             }

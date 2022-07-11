@@ -8,4 +8,5 @@ function customerRoutes(app) {
     app.patch('/user/customer/updateCustomer/:id',userAuthentication, tryCatchHandle(customerController().updateCustomer));
     app.delete('/user/customer/deleteCustomer/:id',userAuthentication, tryCatchHandle(customerController().deleteCustomer));
 }
+
 export { customerRoutes };

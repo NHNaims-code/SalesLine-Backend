@@ -36,6 +36,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    date_time: {
+        type: Date,
+        default: new Date()
+    },
     token: { // Track jwt token
         type: String,
         index: true

@@ -25,25 +25,35 @@ function PaymentController() {
         },
         getAllPayments: async (req, res) => {
             try {
-              const user_id = req.user._id;
-              const allPayments = await Payment.find({user_id: user_id}).populate("customer").populate('product')
-              res.json(allPayments)
+              if(req.user.isAdmin){
+                const allPayments = await Payment.find({}).populate('user_id').populate('customer').populate('product')
+                res.json(allPayments)
+              }else{
+                const user_id = req.user._id;
+                const allPayments = await Payment.find({user_id: user_id}).populate('customer').populate('product')
+                res.json(allPayments)
+              }
             } catch (error) {
               res.json(false)
             }
         },
         updatePayment: async (req, res) => {
+          console.log("log: 36 => hit")
             try {
               const updatedPayment = await Payment.findOneAndUpdate({_id: req.params.id}, req.body)
+              console.log("update payment: ", updatedPayment)
               res.json(updatedPayment)
             } catch (error) {
+              console.log("log: 42 => ", error)
               res.json(false)
             }
         },
         deletePayment: async (req, res) => {
             try {
               const deletedPayment = await Payment.deleteOne({_id: req.params.id})
-              res.json(deletedPayment)
+              const user_id = req.user._id;
+                const allPayments = await Payment.find({user_id: user_id}).populate('customer').populate('product')
+              res.json(allPayments)
             } catch (error) {
               res.json(false)
             }
